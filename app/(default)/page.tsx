@@ -16,6 +16,7 @@ export default function Home() {
     <>
       <PageIllustration />
       <Hero />
+      <Contact />
       <Workflows />
       <Features />
       <Testimonials />
