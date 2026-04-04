@@ -4,31 +4,32 @@ import React from 'react';
 export default function AnimatedLogo() {
   return (
     <div className="w-full flex justify-center py-12 scale-90 md:scale-100" dir="ltr">
-      {/* ستايل الـ CSS عشان نخلي الخطوط تترسم وترتعش كأنها ليزر */}
       <style>{`
-        .laser-trace {
-          stroke-dasharray: 1000;
-          stroke-dashoffset: 1000;
-          animation: drawLaser 6s linear forwards, laserFlicker 0.2s linear infinite;
-        }
-        
-        @keyframes drawLaser {
-          to { stroke-dashoffset: 0; }
-        }
-        
-        @keyframes laserFlicker {
-          0%, 100% { opacity: 1; stroke-width: 1px; }
-          50% { opacity: 0.8; stroke-width: 1.2px; }
+        /* 1. ده المسار الخافت اللي بيكون ثابت كأنه قاعدة الليد */
+        .track {
+          fill: rgba(255, 255, 255, 0.02);
+          stroke: rgba(255, 255, 255, 0.08);
+          stroke-width: 1px;
         }
 
-        .laser-dot {
-          animation: laserDotFollow 6s linear forwards;
+        /* 2. ده الليد الجراي المضيء اللي بيجري على الحواف */
+        .led-runner {
+          fill: none;
+          stroke: #D1D5DB; /* لون جراي/فضي فاتح */
+          stroke-width: 2.5px;
+          stroke-linecap: round;
+          /* الخط ده هو سر الحركة: حتة منورة (150) ومسافة ضلمة (1200) */
+          stroke-dasharray: 150 1200; 
+          stroke-dashoffset: 1200;
+          animation: runLed 5s linear infinite;
+          /* تأثير الوهج (Glow) لليد الجراي */
+          filter: drop-shadow(0 0 5px #D1D5DB) drop-shadow(0 0 15px #9CA3AF);
         }
-        
-        @keyframes laserDotFollow {
-          0% { offset-distance: 0%; opacity: 1; }
-          95% { opacity: 1; }
-          100% { offset-distance: 100%; opacity: 0; }
+
+        /* أنيميشن الجري المتواصل */
+        @keyframes runLed {
+          0% { stroke-dashoffset: 1200; }
+          100% { stroke-dashoffset: 0; }
         }
       `}</style>
       
@@ -37,53 +38,22 @@ export default function AnimatedLogo() {
         className="w-full max-w-[900px] h-auto font-sans"
         style={{ textAnchor: 'middle' }}
       >
-        <defs>
-          {/* لون الليزر الأبيض الناصع مع وهج خفيف */}
-          <filter id="laserGlow">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        {/* الحروف كخطوط خارجية (Outlines) رفيعة جداً */}
-        {/* Experience Power */}
-        <text 
-          x="500" 
-          y="130" 
-          fontSize="75" 
-          fontWeight="900" 
-          fill="none" 
-          stroke="#FFFFFF" 
-          strokeWidth="1" 
-          className="laser-trace" 
-          filter="url(#laserGlow)"
-          letterSpacing="0.05em"
-        >
+        {/* === طبقة المسار الثابت (الخلفية) === */}
+        <text x="500" y="130" fontSize="75" fontWeight="900" className="track" letterSpacing="0.05em">
           Experience Power
         </text>
-        
-        {/* ENERGY */}
-        <text 
-          x="500" 
-          y="220" 
-          fontSize="70" 
-          fontWeight="200" 
-          fill="none" 
-          stroke="#FFFFFF" 
-          strokeWidth="1" 
-          className="laser-trace" 
-          filter="url(#laserGlow)"
-          letterSpacing="0.3em" 
-          opacity="0.8"
-          style={{ animationDelay: '3s' }} /* بيبدأ بعد الكلمة الأولى */
-        >
+        <text x="500" y="220" fontSize="70" fontWeight="200" className="track" letterSpacing="0.3em">
           ENERGY
         </text>
 
-        {/* اختياري: نقطة ليزر حمراء رفيعة "بترسم" الحروف (محتاجة مسار معقد، فخلينا نركز في الخطوط الأول) */}
+        {/* === طبقة الليد الجراي المتحرك === */}
+        <text x="500" y="130" fontSize="75" fontWeight="900" className="led-runner" letterSpacing="0.05em">
+          Experience Power
+        </text>
+        {/* خلينا الكلمة التانية تبدأ متأخرة شوية عشان تدي شكل أحلى */}
+        <text x="500" y="220" fontSize="70" fontWeight="200" className="led-runner" letterSpacing="0.3em" style={{ animationDelay: '2.5s' }}>
+          ENERGY
+        </text>
       </svg>
     </div>
   );
