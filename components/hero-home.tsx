@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import AnimatedLogo from './animated-logo';
 
 export default function HeroHome() {
   return (
@@ -18,7 +19,7 @@ export default function HeroHome() {
         </div>
 
         {/* عنوان رئيسي بفخامة وثقة */}
-        <h1 className="text-5xl md:text-7xl lg:text-[6.5rem] font-medium tracking-tight mb-6 leading-[1.1]" dir="ltr">
+        <AnimatedLogo /> font-medium tracking-tight mb-6 leading-[1.1]" dir="ltr">
           <span className="block text-white mb-2 tracking-normal drop-shadow-sm">
             Experience Power
           </span>
