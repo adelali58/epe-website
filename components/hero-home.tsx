@@ -1,22 +1,63 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import AnimatedLogo from './animated-logo';
+import emailjs from '@emailjs/browser';
 
 export default function HeroHome() {
+  const [loading, setLoading] = useState(false);
+
+  const handleMaintenanceRequest = async () => {
+    setLoading(true);
+    
+    // طلب إذن الموقع من العميل
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          // رابط خرائط جوجل
+          const mapLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+          
+          // إعداد بيانات الرسالة اللي هتوصلك
+          const templateParams = {
+            message: mapLink, 
+          };
+
+          // إرسال الإيميل
+          await emailjs.send(
+            'service_f4r4djs',      // Service ID
+            'template_lbpbwjd',     // Template ID
+            templateParams,
+            'DtIldLHpRbg87Fqy7'     // Public Key
+          );
+
+          alert("تم تحديد موقعك بنجاح! فريق الصيانة سيتواصل معك فوراً ⚡");
+        } catch (error) {
+          console.error("Error sending location:", error);
+          alert("حدث خطأ في إرسال الموقع، حاول مرة أخرى.");
+        } finally {
+          setLoading(false);
+        }
+      }, (error) => {
+        alert("برجاء تفعيل تحديد الموقع (GPS) لنتمكن من الوصول إليك.");
+        setLoading(false);
+      });
+    } else {
+      alert("متصفحك لا يدعم تحديد الموقع.");
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#030303] text-slate-200 font-sans border-b border-white/5" dir="rtl">
-      
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[50vh] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-600/15 via-[#030303] to-[#030303] blur-3xl pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full text-center mt-12">
-        
-        <div className="flex justify-center items-center gap-4 mb-8 opacity-60">
+        <div className="flex justify-center items-center gap-4 mb-8 opacity-60 text-[10px] uppercase tracking-[0.4em] text-slate-400 font-semibold" dir="ltr">
            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-slate-400"></div>
-           <span className="text-[10px] uppercase tracking-[0.4em] text-slate-400 font-semibold" dir="ltr">Premium EV Solutions</span>
+           Premium EV Solutions
            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-slate-400"></div>
         </div>
 
-        {/* اللوجو المتحرك بالشهاب */}
         <AnimatedLogo />
 
         <p className="max-w-2xl mx-auto text-base md:text-lg text-slate-400/80 mb-16 leading-relaxed font-light mt-4">
@@ -26,15 +67,18 @@ export default function HeroHome() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-          <button className="w-full sm:w-64 px-8 py-4 bg-white text-black hover:bg-slate-200 rounded-sm font-semibold text-sm uppercase tracking-wide transition-colors duration-300">
-            اطلب معاينة هندسية
+          <button 
+            onClick={handleMaintenanceRequest}
+            disabled={loading}
+            className="w-full sm:w-64 px-8 py-4 bg-white text-black hover:bg-slate-200 rounded-sm font-semibold text-sm uppercase tracking-wide transition-colors duration-300 disabled:opacity-50"
+          >
+            {loading ? "جاري تحديد موقعك..." : "اطلب صيانة فورية (GPS)"}
           </button>
           
           <button className="w-full sm:w-64 px-8 py-4 bg-transparent border border-slate-600 hover:border-white text-white hover:bg-white/5 rounded-sm font-semibold text-sm uppercase tracking-wide transition-all duration-300 backdrop-blur-sm">
             استكشف خدماتنا
           </button>
         </div>
-
       </div>
     </section>
   );
