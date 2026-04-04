@@ -1,7 +1,61 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    serviceType: "توريد وتركيب شاحن جديد",
+    details: ""
+  });
+
+  const handleChange = (e: any) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault(); // منع الصفحة من التحميل من جديد
+
+    // التأكد إن العميل كاتب اسمه ورقمه
+    if (!formData.name || !formData.phone) {
+      alert("برجاء إدخال الاسم ورقم الهاتف على الأقل لنتمكن من التواصل معك.");
+      return;
+    }
+
+    setLoading(true);
+
+    // تجميع البيانات في رسالة واحدة مرتبة
+    const fullMessage = `
+طلب جديد من الموقع! ⚡
+
+الاسم: ${formData.name}
+رقم الهاتف: ${formData.phone}
+الخدمة المطلوبة: ${formData.serviceType}
+تفاصيل الطلب: ${formData.details}
+    `;
+
+    try {
+      // إرسال الإيميل بنفس مفاتيحك
+      await emailjs.send(
+        'service_f4r4djs',      // Service ID
+        'template_lbpbwjd',     // Template ID
+        { message: fullMessage }, // الرسالة المجمعة هتنزل مكان {{message}}
+        'DtIldLHpRbg87Fqy7'     // Public Key
+      );
+
+      alert("تم إرسال طلبك بنجاح! سنتواصل معك في أقرب وقت ⚡");
+      // تفريغ الخانات بعد الإرسال
+      setFormData({ name: "", phone: "", serviceType: "توريد وتركيب شاحن جديد", details: "" });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("حدث خطأ أثناء الإرسال، برجاء المحاولة مرة أخرى أو التواصل عبر الواتساب.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="relative py-20 bg-slate-950 text-slate-200 font-sans border-t border-slate-800" dir="rtl">
       
@@ -58,20 +112,39 @@ export default function Contact() {
             <p className="text-slate-400">سواء كنت تحتاج لتسعير، استشارة هندسية، أو طلب صيانة.</p>
           </div>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-2">الاسم بالكامل</label>
-                <input type="text" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="اسمك الكريم" />
+                <input 
+                  type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                  placeholder="اسمك الكريم" 
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-2">رقم الهاتف</label>
-                <input type="tel" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="01X XXXX XXXX" />
+                <input 
+                  type="tel" 
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                  placeholder="01X XXXX XXXX" 
+                />
               </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-2">نوع الخدمة المطلوبة</label>
-              <select className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors">
+              <select 
+                name="serviceType"
+                value={formData.serviceType}
+                onChange={handleChange}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+              >
                 <option>توريد وتركيب شاحن جديد</option>
                 <option>طلب صيانة أو إصلاح</option>
                 <option>عقد صيانة دورية</option>
@@ -80,10 +153,21 @@ export default function Contact() {
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-2">تفاصيل الطلب</label>
-              <textarea rows={4} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="اكتب تفاصيل طلبك هنا..."></textarea>
+              <textarea 
+                rows={4} 
+                name="details"
+                value={formData.details}
+                onChange={handleChange}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                placeholder="اكتب تفاصيل طلبك هنا..."
+              ></textarea>
             </div>
-            <button type="button" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.2)]">
-              إرسال الطلب
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.2)] disabled:opacity-50"
+            >
+              {loading ? "جاري الإرسال..." : "إرسال الطلب"}
             </button>
           </form>
         </div>
