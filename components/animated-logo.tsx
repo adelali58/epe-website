@@ -4,6 +4,23 @@ import React from 'react';
 export default function AnimatedLogo() {
   return (
     <div className="w-full flex justify-center py-12 scale-90 md:scale-100" dir="ltr">
+      {/* هنا بنحط ستايل الـ CSS عشان نحرك الشهاب بطريقة مضمونة */}
+      <style>{`
+        @keyframes orbit {
+          0% { transform: translate(30px, 160px); }
+          100% { transform: translate(30px, 160px); }
+        }
+        
+        .orbit-trail {
+          offset-path: path("M 30,160 a 470,130 0 1,0 940,0 a 470,130 0 1,0 -940,0");
+          animation: followPath 4s linear infinite;
+        }
+        
+        @keyframes followPath {
+          100% { offset-distance: 100%; }
+        }
+      `}</style>
+      
       <svg
         viewBox="0 0 1000 300"
         className="w-full max-w-[900px] h-auto font-sans"
@@ -34,31 +51,19 @@ export default function AnimatedLogo() {
         <text x="500" y="130" fontSize="75" fontWeight="900" fill="url(#textGradient)" letterSpacing="0.05em">
           Experience Power
         </text>
-        <text x="500" y="220" fontSize="70" fontWeight="200" fill="url(#textGradient)" letterSpacing="0.3em" opacity="0.8">
+        <text x="500" y="220" fontSize="70" fontWeight="200" fill="url(#textGradient)" letterSpacing="0.3em opacity-80">
           ENERGY
         </text>
 
-        <ellipse
-          id="orbitPath"
-          cx="500"
-          cy="160"
-          rx="470"
-          ry="130"
-          fill="none"
-          stroke="none"
-        />
+        {/* المسار الخفي (شكل بيضاوي) */}
+        <ellipse cx="500" cy="160" rx="470" ry="130" fill="none" stroke="none" />
 
-        <circle r="12" fill="url(#meteorGradient)" filter="url(#glow)">
-          <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
-            <mpath href="#orbitPath" />
-          </animateMotion>
-        </circle>
+        {/* الشهاب المضيء الرئيسي - ضفنا له كلاس الحركة orbit-trail */}
+        <circle r="12" fill="url(#meteorGradient)" filter="url(#glow)" className="orbit-trail" />
         
-         <circle r="6" fill="url(#meteorGradient)" filter="url(#glow)" opacity="0.5">
-          <animateMotion dur="4s" repeatCount="indefinite" rotate="auto" begin="0.1s">
-            <mpath href="#orbitPath" />
-          </animateMotion>
-        </circle>
+        {/* ذيل الشهاب المضيء - ضفنا له كلاس الحركة orbit-trail مع تأخير */}
+         <circle r="6" fill="url(#meteorGradient)" filter="url(#glow)" opacity="0.5" className="orbit-trail" style={{ animationDelay: '0.1s' }} />
+
       </svg>
     </div>
   );
