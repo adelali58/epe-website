@@ -4,20 +4,31 @@ import React from 'react';
 export default function AnimatedLogo() {
   return (
     <div className="w-full flex justify-center py-12 scale-90 md:scale-100" dir="ltr">
-      {/* هنا بنحط ستايل الـ CSS عشان نحرك الشهاب بطريقة مضمونة */}
+      {/* ستايل الـ CSS عشان نخلي الخطوط تترسم وترتعش كأنها ليزر */}
       <style>{`
-        @keyframes orbit {
-          0% { transform: translate(30px, 160px); }
-          100% { transform: translate(30px, 160px); }
+        .laser-trace {
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 1000;
+          animation: drawLaser 6s linear forwards, laserFlicker 0.2s linear infinite;
         }
         
-        .orbit-trail {
-          offset-path: path("M 30,160 a 470,130 0 1,0 940,0 a 470,130 0 1,0 -940,0");
-          animation: followPath 4s linear infinite;
+        @keyframes drawLaser {
+          to { stroke-dashoffset: 0; }
         }
         
-        @keyframes followPath {
-          100% { offset-distance: 100%; }
+        @keyframes laserFlicker {
+          0%, 100% { opacity: 1; stroke-width: 1px; }
+          50% { opacity: 0.8; stroke-width: 1.2px; }
+        }
+
+        .laser-dot {
+          animation: laserDotFollow 6s linear forwards;
+        }
+        
+        @keyframes laserDotFollow {
+          0% { offset-distance: 0%; opacity: 1; }
+          95% { opacity: 1; }
+          100% { offset-distance: 100%; opacity: 0; }
         }
       `}</style>
       
@@ -27,43 +38,52 @@ export default function AnimatedLogo() {
         style={{ textAnchor: 'middle' }}
       >
         <defs>
-          <linearGradient id="textGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1" />
-            <stop offset="50%" stopColor="#A0AEC0" stopOpacity="1" />
-            <stop offset="100%" stopColor="#718096" stopOpacity="1" />
-          </linearGradient>
-
-          <filter id="glow">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          {/* لون الليزر الأبيض الناصع مع وهج خفيف */}
+          <filter id="laserGlow">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-
-          <radialGradient id="meteorGradient">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1" />
-            <stop offset="40%" stopColor="#22D3EE" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#22D3EE" stopOpacity="0" />
-          </radialGradient>
         </defs>
 
-        <text x="500" y="130" fontSize="75" fontWeight="900" fill="url(#textGradient)" letterSpacing="0.05em">
+        {/* الحروف كخطوط خارجية (Outlines) رفيعة جداً */}
+        {/* Experience Power */}
+        <text 
+          x="500" 
+          y="130" 
+          fontSize="75" 
+          fontWeight="900" 
+          fill="none" 
+          stroke="#FFFFFF" 
+          strokeWidth="1" 
+          className="laser-trace" 
+          filter="url(#laserGlow)"
+          letterSpacing="0.05em"
+        >
           Experience Power
         </text>
-        <text x="500" y="220" fontSize="70" fontWeight="200" fill="url(#textGradient)" letterSpacing="0.3em opacity-80">
+        
+        {/* ENERGY */}
+        <text 
+          x="500" 
+          y="220" 
+          fontSize="70" 
+          fontWeight="200" 
+          fill="none" 
+          stroke="#FFFFFF" 
+          strokeWidth="1" 
+          className="laser-trace" 
+          filter="url(#laserGlow)"
+          letterSpacing="0.3em" 
+          opacity="0.8"
+          style={{ animationDelay: '3s' }} /* بيبدأ بعد الكلمة الأولى */
+        >
           ENERGY
         </text>
 
-        {/* المسار الخفي (شكل بيضاوي) */}
-        <ellipse cx="500" cy="160" rx="470" ry="130" fill="none" stroke="none" />
-
-        {/* الشهاب المضيء الرئيسي - ضفنا له كلاس الحركة orbit-trail */}
-        <circle r="12" fill="url(#meteorGradient)" filter="url(#glow)" className="orbit-trail" />
-        
-        {/* ذيل الشهاب المضيء - ضفنا له كلاس الحركة orbit-trail مع تأخير */}
-         <circle r="6" fill="url(#meteorGradient)" filter="url(#glow)" opacity="0.5" className="orbit-trail" style={{ animationDelay: '0.1s' }} />
-
+        {/* اختياري: نقطة ليزر حمراء رفيعة "بترسم" الحروف (محتاجة مسار معقد، فخلينا نركز في الخطوط الأول) */}
       </svg>
     </div>
   );
