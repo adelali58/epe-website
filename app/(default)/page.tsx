@@ -1,10 +1,12 @@
-import HeroHome from '@/components/hero-home';
-import Contact from '@/components/contact';
+import Hero from "@/components/hero-home";
+import Services from "@/components/services"; // استدعاء قسم الخدمات
+import Contact from "@/components/contact";
 
 export default function Home() {
   return (
     <>
-      <HeroHome />
+      <Hero />
+      <Services /> {/* وضع قسم الخدمات تحت الواجهة */}
       <Contact />
     </>
   );

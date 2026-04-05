@@ -16,9 +16,8 @@ export default function Contact() {
   };
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault(); // منع الصفحة من التحميل من جديد
+    e.preventDefault();
 
-    // التأكد إن العميل كاتب اسمه ورقمه
     if (!formData.name || !formData.phone) {
       alert("برجاء إدخال الاسم ورقم الهاتف على الأقل لنتمكن من التواصل معك.");
       return;
@@ -26,7 +25,6 @@ export default function Contact() {
 
     setLoading(true);
 
-    // تجميع البيانات في رسالة واحدة مرتبة
     const fullMessage = `
 طلب جديد من الموقع! ⚡
 
@@ -37,20 +35,18 @@ export default function Contact() {
     `;
 
     try {
-      // إرسال الإيميل بنفس مفاتيحك
       await emailjs.send(
-        'service_f4r4djs',      // Service ID
-        'template_lbpbwjd',     // Template ID
-        { message: fullMessage }, // الرسالة المجمعة هتنزل مكان {{message}}
-        'DtIldLHpRbg87Fqy7'     // Public Key
+        'service_f4r4djs',
+        'template_lbpbwjd',
+        { message: fullMessage },
+        'DtlldLHpRbg87Fqy7' // المفتاح السليم
       );
 
       alert("تم إرسال طلبك بنجاح! سنتواصل معك في أقرب وقت ⚡");
-      // تفريغ الخانات بعد الإرسال
       setFormData({ name: "", phone: "", serviceType: "توريد وتركيب شاحن جديد", details: "" });
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("حدث خطأ أثناء الإرسال، برجاء المحاولة مرة أخرى أو التواصل عبر الواتساب.");
+      alert("حدث خطأ أثناء الإرسال، برجاء المحاولة مرة أخرى.");
     } finally {
       setLoading(false);
     }
@@ -59,12 +55,10 @@ export default function Contact() {
   return (
     <section className="relative py-20 bg-slate-950 text-slate-200 font-sans border-t border-slate-800" dir="rtl">
       
-      {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/10 via-slate-950 to-slate-950 pointer-events-none"></div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         
-        {/* Gallery Section - سابقة الأعمال */}
         <div className="mb-24">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-4xl font-black text-white mb-4">سابقة أعمالنا</h2>
@@ -72,7 +66,6 @@ export default function Contact() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Project 1 */}
             <div className="group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all">
               <div className="aspect-video bg-slate-800 flex items-center justify-center">
                 <span className="text-4xl">⚡</span>
@@ -82,7 +75,6 @@ export default function Contact() {
                 <p className="text-sm text-slate-400 mt-1">القاهرة الجديدة</p>
               </div>
             </div>
-            {/* Project 2 */}
             <div className="group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all">
               <div className="aspect-video bg-slate-800 flex items-center justify-center">
                 <span className="text-4xl">🏢</span>
@@ -92,7 +84,6 @@ export default function Contact() {
                 <p className="text-sm text-slate-400 mt-1">القرية الذكية</p>
               </div>
             </div>
-            {/* Project 3 */}
             <div className="group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all">
               <div className="aspect-video bg-slate-800 flex items-center justify-center">
                 <span className="text-4xl">🔋</span>
@@ -105,7 +96,6 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Contact Form - نموذج التواصل */}
         <div className="max-w-3xl mx-auto bg-slate-900/50 backdrop-blur-md p-8 md:p-12 rounded-[2rem] border border-slate-800 shadow-2xl">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-black text-white mb-2">تواصل معنا الآن</h2>
@@ -174,7 +164,6 @@ export default function Contact() {
 
       </div>
 
-      {/* Floating WhatsApp Button */}
       <a 
         href="https://wa.me/201080380777" 
         target="_blank" 

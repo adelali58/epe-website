@@ -9,31 +9,28 @@ export default function HeroHome() {
   const handleMaintenanceRequest = async () => {
     setLoading(true);
     
-    // طلب إذن الموقع من العميل
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         try {
           const { latitude, longitude } = position.coords;
-          // رابط خرائط جوجل
+          // رابط خرائط جوجل المباشر
           const mapLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
           
-          // إعداد بيانات الرسالة اللي هتوصلك
           const templateParams = {
             message: mapLink, 
           };
 
-          // إرسال الإيميل
           await emailjs.send(
-            'service_f4r4djs',      // Service ID
-            'template_lbpbwjd',     // Template ID
+            'service_f4r4djs',
+            'template_lbpbwjd',
             templateParams,
-            'DtIldLHpRbg87Fqy7'     // Public Key
+            'DtlldLHpRbg87Fqy7' // المفتاح السليم
           );
 
           alert("تم تحديد موقعك بنجاح! فريق الصيانة سيتواصل معك فوراً ⚡");
         } catch (error) {
           console.error("Error sending location:", error);
-          alert("حدث خطأ في إرسال الموقع، حاول مرة أخرى.");
+          alert("حدث خطأ في إرسال الموقع، تأكد من اتصالك بالإنترنت.");
         } finally {
           setLoading(false);
         }
@@ -72,7 +69,7 @@ export default function HeroHome() {
             disabled={loading}
             className="w-full sm:w-64 px-8 py-4 bg-white text-black hover:bg-slate-200 rounded-sm font-semibold text-sm uppercase tracking-wide transition-colors duration-300 disabled:opacity-50"
           >
-            {loading ? "جاري تحديد موقعك..." : "اطلب صيانة فورية (GPS)"}
+            {loading ? "جاري الإرسال..." : "اطلب صيانة فورية (GPS)"}
           </button>
           
           <button className="w-full sm:w-64 px-8 py-4 bg-transparent border border-slate-600 hover:border-white text-white hover:bg-white/5 rounded-sm font-semibold text-sm uppercase tracking-wide transition-all duration-300 backdrop-blur-sm">

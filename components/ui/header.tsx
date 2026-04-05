@@ -1,34 +1,35 @@
 "use client";
-
 import Link from "next/link";
-import Logo from "./logo";
 
 export default function Header() {
   return (
-    <header className="z-30 mt-2 w-full md:mt-5">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="relative flex h-14 items-center justify-between gap-3 rounded-2xl bg-gray-900/90 px-3 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(to_right,var(--color-gray-800),var(--color-gray-700),var(--color-gray-800))_border-box] before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] after:absolute after:inset-0 after:-z-10 after:backdrop-blur-xs">
-          {/* Site branding */}
-          <div className="flex flex-1 items-center">
-            <Logo />
+    <header className="fixed top-4 z-50 w-full px-4 sm:px-6 transition-all" dir="rtl">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex h-16 items-center justify-between rounded-2xl bg-slate-900/80 px-6 shadow-2xl backdrop-blur-md border border-white/10">
+          
+          {/* اللوجو النصي */}
+          <div className="flex items-center">
+            <Link href="/" className="text-xl font-black text-white flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <span className="text-blue-500 text-2xl">⚡</span> 
+              <span className="tracking-tighter">EPE</span>
+            </Link>
           </div>
 
-          {/* Desktop sign in links */}
-          <ul className="flex flex-1 items-center justify-end gap-3">
-            <li>
-              <Link
-                href="/signin"
-                className="btn-sm relative bg-linear-to-b from-gray-800 to-gray-800/60 bg-[length:100%_100%] bg-[bottom] py-[5px] text-gray-300 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(to_right,var(--color-gray-800),var(--color-gray-700),var(--color-gray-800))_border-box] before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] hover:bg-[length:100%_150%]"
-              >
-                Sign In
+          {/* روابط التنقل والزراير */}
+          <ul className="flex items-center gap-6 text-sm font-bold">
+            <li className="hidden md:block">
+              <Link href="/" className="text-slate-300 hover:text-blue-400 transition-colors">
+                الرئيسية
+              </Link>
+            </li>
+            <li className="hidden md:block">
+              <Link href="#services" className="text-slate-300 hover:text-blue-400 transition-colors">
+                خدماتنا
               </Link>
             </li>
             <li>
-              <Link
-                href="/signup"
-                className="btn-sm bg-linear-to-t from-indigo-600 to-indigo-500 bg-[length:100%_100%] bg-[bottom] py-[5px] text-white shadow-[inset_0px_1px_0px_0px_--theme(--color-white/.16)] hover:bg-[length:100%_150%]"
-              >
-                Register
+              <Link href="#contact" className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+                طلب صيانة
               </Link>
             </li>
           </ul>
