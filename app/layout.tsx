@@ -8,6 +8,28 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+export const metadata = {
+  title: "Experience Power Energy | شواحن السيارات الكهربائية",
+  description: "الشركة الرائدة في توريد وتركيب وصيانة شواحن السيارات الكهربائية (AC & DC) في مصر. متخصصون في صيانة شواحن تسلا، وتأسيس البنية التحتية لمحطات الشحن السريع بأعلى معايير الأمان.",
+  keywords: [
+    "شواحن سيارات كهربائية",
+    "تركيب شاحن تسلا مصر",
+    "صيانة EV Charger",
+    "محطات شحن سيارات كهربائية",
+    "Experience Power Energy",
+    "شاحن سيارة كهربائية منزلي",
+    "صيانة شواحن DC"
+  ],
+  authors: [{ name: "Experience Power Energy" }],
+  openGraph: {
+    title: "Experience Power Energy | حلول شحن السيارات الكهربائية",
+    description: "حلول متكاملة لتوريد وتركيب وصيانة شواحن السيارات الكهربائية في مصر.",
+    url: "https://epe-website.vercel.app/", // لينك موقعك
+    siteName: "Experience Power Energy",
+    locale: "ar_EG",
+    type: "website",
+  },
+};
 
 export default function RootLayout({
   children,
