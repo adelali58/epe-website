@@ -40,20 +40,21 @@ export default function HeroHome() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#f8fafc]">
-      
-      {/* 1. الخلفية: صورة عربية كهربائية بتشحن مع طبقة بيضاء شفافة عشان تريح العين */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1620218175919-f3009bc7318d?q=80&w=2000&auto=format&fit=crop')" }}
-      ></div>
-      {/* تفتيح الخلفية عشان الكبسولة تنطق */}
-      <div className="absolute inset-0 bg-slate-100/80 z-0"></div>
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#f8fafc]">
+      {/* مشهد الخلفية (EV Collage) */}
+      <div className="absolute inset-0 z-0 opacity-[0.06]">
+        <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
+          <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=800')" }}></div>
+          <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541443131876-44b03de101c5?q=80&w=800')" }}></div>
+          <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1620218175919-f3009bc7318d?q=80&w=800')" }}></div>
+          <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1594535182308-8ffef9bb9034?q=80&w=800')" }}></div>
+        </div>
+      </div>
 
-      {/* 2. الكبسولة البيضاء (نص دايرة من الجوانب وموجودة في النص بالظبط) */}
-      <div className="relative z-10 w-full max-w-5xl px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-20 w-full flex-grow flex items-center justify-center">
         
-        <div className="bg-white/95 backdrop-blur-sm shadow-2xl rounded-[3rem] md:rounded-[5rem] px-6 py-12 md:px-20 md:py-16 text-center border border-white">
+        {/* اللوحة البيضاء (الكبسولة) - نص دايرة من الحواف وموجودة في النص بالظبط */}
+        <div className="bg-white shadow-2xl rounded-[3rem] md:rounded-[6rem] p-10 md:px-24 md:py-16 max-w-4xl w-full text-center border border-slate-100 relative overflow-hidden transition-all duration-500 hover:shadow-3xl">
           
           <div className="mb-8">
             {/* العنوان الفضي الميتاليك */}
@@ -62,20 +63,20 @@ export default function HeroHome() {
                 Experience:Life
               </span>
               <br />
-              <span className="text-[#004b50] text-4xl md:text-5xl tracking-[0.3em] font-light mt-4 block">
+              <span className="text-[#004b50] text-4xl md:text-5xl tracking-[0.3em] font-light mt-3 block">
                 ENERGY
               </span>
             </h1>
           </div>
           
-          {/* برجراف "الحلول الهندسية" اللي إنت عايزه في النص */}
+          {/* النصوص الفرعية في النص */}
           <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed font-medium max-w-2xl mx-auto">
             توريد وتركيب وصيانة بأعلى مستويات الأمان والتكنولوجيا الأوروبية.
             <br />
             نقدم لك معايير الفخامة الهندسية في حلول شحن السيارات الكهربائية.
           </p>
           
-          {/* الأزرار */}
+          {/* الأزرار في النص */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
             <button
               onClick={handleEmergencyMaintenance}
@@ -93,6 +94,23 @@ export default function HeroHome() {
           </div>
 
         </div>
+
+      </div>
+      
+      {/* اللمسة السفلية */}
+      <div className="w-full text-center p-6 relative z-10">
+          <p className="text-[#004b50] text-lg font-bold">
+            حلول هندسية متكاملة
+            <span className="text-slate-400 mx-2">|</span>
+            Smart charging network
+          </p>
+          <div className="flex justify-center mt-3">
+            <div className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center bg-white shadow-sm animate-bounce">
+                <svg className="w-4 h-4 text-[#004b50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                </svg>
+            </div>
+          </div>
       </div>
       
     </section>
