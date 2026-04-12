@@ -40,63 +40,50 @@ export default function HeroHome() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#020617]">
-      {/* خلفية السيارة الفاخرة مع تأثير التعتيم الملكي */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-        style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1617788138017-80ad42243c3d?q=80&w=2000&auto=format&fit=crop')",
-          filter: "brightness(0.3)" 
-        }}
-      ></div>
-      
-      {/* تدرج لوني إضافي للعمق */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/50 to-[#020617] z-0"></div>
+    // هنا ضفنا صورة الخلفية من النت مباشرة
+    <section 
+      className="relative bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop')" }}
+    >
+      {/* دي الطبقة الشفافة (Overlay) عشان تهدي ألوان الصورة والكلام يظهر */}
+      <div className="absolute inset-0 bg-[#f8fafc]/85"></div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-32">
-        <div className="text-center">
-          
-          {/* الشعار الرئيسي */}
-          <div className="mb-8 animate-fade-in">
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-2">
-              <span className="text-white drop-shadow-2xl">Experience Power</span>
-            </h1>
-            <h2 className="text-2xl md:text-4xl font-light tracking-[0.5em] text-[#D4AF37] uppercase">
-              Energy
-            </h2>
-          </div>
-          
-          <div className="max-w-3xl mx-auto">
-            {/* الوصف */}
-            <p className="text-xl md:text-2xl text-slate-300 mb-12 leading-relaxed font-light italic">
-              "نحن لا نشحن السيارات، نحن نمنحك طاقة المستقبل بمعايير ذهبية."
-            </p>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
+          <div className="text-center pb-12 md:pb-16">
             
-            {/* الأزرار الملكية */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <button
-                onClick={handleEmergencyMaintenance}
-                className="group relative w-full sm:w-auto px-10 py-4 bg-[#D4AF37] text-black font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]"
-              >
-                <span className="relative z-10">اطلب صيانة فورية (GPS)</span>
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              </button>
+            <h1 className="text-5xl md:text-7xl font-extrabold leading-tighter tracking-tighter mb-4">
+              <span className="text-[#004b50]">Experience Power</span>
+              <br />
+              <span className="text-[#004b50] font-light tracking-[0.3em] opacity-80">ENERGY</span>
+            </h1>
+            
+            <div className="max-w-3xl mx-auto mt-8">
+              <p className="text-xl text-slate-700 mb-8 leading-relaxed font-medium">
+                نقدم لك معايير الفخامة الهندسية في حلول شحن السيارات الكهربائية.
+                <br />
+                توريد وتركيب وصيانة بأعلى مستويات الأمان والتكنولوجيا الأوروبية.
+              </p>
               
-              <a
-                href="#services"
-                className="w-full sm:w-auto px-10 py-4 border-2 border-[#D4AF37] text-[#D4AF37] font-bold rounded-full transition-all duration-300 hover:bg-[#D4AF37] hover:text-black"
-              >
-                استكشف خدماتنا الفاخرة
-              </a>
+              <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center gap-4">
+                <button
+                  onClick={handleEmergencyMaintenance}
+                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-[#004b50] text-white hover:bg-[#00363a] transition-colors duration-300 shadow-lg mb-4 sm:mb-0"
+                >
+                  اطلب صيانة فورية (GPS)
+                </button>
+                
+                <a
+                  href="#services"
+                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-white text-[#004b50] border-2 border-[#004b50] hover:bg-slate-100 transition-colors duration-300 flex items-center justify-center"
+                >
+                  استكشف خدماتنا
+                </a>
+              </div>
             </div>
+            
           </div>
-          
         </div>
-      </div>
-
-      {/* لمسة ديكورية خفيفة في الأسفل */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
-        <div className="w-1 h-12 rounded-full bg-gradient-to-b from-[#D4AF37] to-transparent"></div>
       </div>
     </section>
   );
