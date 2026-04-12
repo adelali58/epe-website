@@ -40,51 +40,64 @@ export default function HeroHome() {
   };
 
   return (
-    // هنا ضفنا صورة الخلفية من النت مباشرة
-    <section 
-      className="relative bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop')" }}
-    >
-      {/* دي الطبقة الشفافة (Overlay) عشان تهدي ألوان الصورة والكلام يظهر */}
-      <div className="absolute inset-0 bg-[#f8fafc]/85"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#020617]">
+      {/* الخلفية: صورة سيارة فاخرة بتأثير درامي */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+        style={{ 
+          backgroundImage: "url('https://images.unsplash.com/photo-1617788138017-80ad42243c3d?q=80&w=2000&auto=format&fit=crop')",
+          filter: "brightness(0.25)" 
+        }}
+      ></div>
+      
+      {/* طبقة التدرج اللوني للعمق الفني */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#020617] z-0"></div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-          <div className="text-center pb-12 md:pb-16">
-            
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-tighter tracking-tighter mb-4">
-              <span className="text-[#004b50]">Experience Power</span>
-              <br />
-              <span className="text-[#004b50] font-light tracking-[0.3em] opacity-80">ENERGY</span>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-32">
+        <div className="text-center">
+          
+          <div className="mb-10">
+            {/* اللمسة الفضية الميتاليك (Experience Power) */}
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-2 italic">
+              <span className="bg-gradient-to-b from-[#f8fafc] via-[#94a3b8] to-[#475569] bg-clip-text text-transparent drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]">
+                Experience Power
+              </span>
             </h1>
             
-            <div className="max-w-3xl mx-auto mt-8">
-              <p className="text-xl text-slate-700 mb-8 leading-relaxed font-medium">
-                نقدم لك معايير الفخامة الهندسية في حلول شحن السيارات الكهربائية.
-                <br />
-                توريد وتركيب وصيانة بأعلى مستويات الأمان والتكنولوجيا الأوروبية.
-              </p>
-              
-              <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center gap-4">
-                <button
-                  onClick={handleEmergencyMaintenance}
-                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-[#004b50] text-white hover:bg-[#00363a] transition-colors duration-300 shadow-lg mb-4 sm:mb-0"
-                >
-                  اطلب صيانة فورية (GPS)
-                </button>
-                
-                <a
-                  href="#services"
-                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-white text-[#004b50] border-2 border-[#004b50] hover:bg-slate-100 transition-colors duration-300 flex items-center justify-center"
-                >
-                  استكشف خدماتنا
-                </a>
-              </div>
-            </div>
-            
+            {/* اللمسة الذهبية (ENERGY) */}
+            <h2 className="text-2xl md:text-4xl font-light tracking-[0.6em] text-[#D4AF37] uppercase drop-shadow-[0_2px_5px_rgba(212,175,55,0.3)]">
+              Energy
+            </h2>
           </div>
+          
+          <div className="max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-slate-300 mb-12 leading-relaxed font-light">
+              نمنحك طاقة المستقبل بمعايير هندسية فاخرة.
+            </p>
+            
+            {/* الأزرار الملكية بالذهب والأسود */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <button
+                onClick={handleEmergencyMaintenance}
+                className="group relative w-full sm:w-auto px-12 py-4 bg-[#D4AF37] text-black font-black rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.6)]"
+              >
+                اطلب صيانة فورية (GPS)
+              </button>
+              
+              <a
+                href="#services"
+                className="w-full sm:w-auto px-12 py-4 border-2 border-[#D4AF37] text-[#D4AF37] font-bold rounded-full transition-all duration-300 hover:bg-[#D4AF37]/10"
+              >
+                استكشف خدماتنا
+              </a>
+            </div>
+          </div>
+          
         </div>
       </div>
+
+      {/* خط الإضاءة السفلي النابض */}
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-30"></div>
     </section>
   );
 }
