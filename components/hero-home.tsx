@@ -40,57 +40,40 @@ export default function HeroHome() {
   };
 
   return (
-    // رجعنا للخلفية الفاتحة اللي بتشحن مع طبقة بيضاء شفافة شيك
-    <section 
-      className="relative bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=2000&auto=format&fit=crop')" }}
-    >
-      {/* الطبقة الفاتحة اللي بتخلي الموقع مريح للعين (نفس الصورة الأولى) */}
-      <div className="absolute inset-0 bg-[#f8fafc]/90"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#f8fafc]">
+      
+      {/* شبكة الصور الخلفية (EV Collage Background) */}
+      <div className="absolute inset-0 z-0 grid grid-cols-2 grid-rows-2 opacity-[0.08]">
+        <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=800')" }}></div>
+        <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541443131876-44b03de101c5?q=80&w=800')" }}></div>
+        <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1620218175919-f3009bc7318d?q=80&w=800')" }}></div>
+        <div className="bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1594535182308-8ffef9bb9034?q=80&w=800')" }}></div>
+      </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-          <div className="text-center pb-12 md:pb-16">
-            
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-tighter tracking-tighter mb-4">
-              {/* اللمسة الفضية الميتاليك 3D على كلمة Experience Power */}
-              <span className="bg-gradient-to-b from-slate-300 via-slate-500 to-slate-800 bg-clip-text text-transparent drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-32">
+        <div className="text-center">
+          
+          <div className="mb-10">
+            {/* اللمسة الفضية الميتاليك 3D */}
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-2 italic">
+              <span className="bg-gradient-to-b from-[#f8fafc] via-[#94a3b8] to-[#475569] bg-clip-text text-transparent drop-shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
                 Experience Power
-              </span>
-              <br />
-              {/* كلمة ENERGY بلون التيل الأساسي للشركة */}
-              <span className="text-[#004b50] font-light tracking-[0.3em] opacity-80">
-                ENERGY
               </span>
             </h1>
             
-            <div className="max-w-3xl mx-auto mt-8">
-              <p className="text-xl text-slate-700 mb-8 leading-relaxed font-medium">
-                نقدم لك معايير الفخامة الهندسية في حلول شحن السيارات الكهربائية.
-                <br />
-                توريد وتركيب وصيانة بأعلى مستويات الأمان والتكنولوجيا الأوروبية.
-              </p>
-              
-              <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center gap-4">
-                <button
-                  onClick={handleEmergencyMaintenance}
-                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-[#004b50] text-white hover:bg-[#00363a] transition-colors duration-300 shadow-lg mb-4 sm:mb-0"
-                >
-                  اطلب صيانة فورية (GPS)
-                </button>
-                
-                <a
-                  href="#services"
-                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-transparent text-[#004b50] border-2 border-[#004b50] hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center"
-                >
-                  استكشف خدماتنا
-                </a>
-              </div>
-            </div>
-            
+            {/* ENERGY بلون التيل المعتمد */}
+            <h2 className="text-2xl md:text-4xl font-light tracking-[0.6em] text-[#004b50] uppercase">
+              Energy
+            </h2>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+          
+          <div className="max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-slate-700 mb-12 leading-relaxed font-medium">
+              حلول هندسية متكاملة لشحن السيارات الكهربائية.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              {/* زرار الصيانة بلون البراند */}
+              <button
+                onClick={handleEmergencyMaintenance}
+                className="w-full sm:w-auto px-12 py-4 bg-[#0
