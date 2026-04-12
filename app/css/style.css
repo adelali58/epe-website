@@ -91,3 +91,8 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+:root {
+  --epe-teal: #004b50;      /* اللون الغامق بتاع اللوجو */
+  --epe-lime: #a3e635;      /* اللون الأخضر اللي في البطارية */
+  --epe-light: #f8fafc;     /* رمادي فاتح جداً للخلفية */
+}
