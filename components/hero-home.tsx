@@ -3,33 +3,51 @@
 import React from "react";
 
 export default function HeroHome() {
+  // فانكشن التوجيه السحري للواتساب
+  const sendToWhatsApp = (lat: number | null, lng: number | null) => {
+    const clientName = prompt("برجاء إدخال اسمك الكريم:");
+    if (!clientName) return; 
+
+    const clientPhone = prompt("برجاء إدخال رقم موبايلك للتواصل السريع:");
+    if (!clientPhone) return; 
+
+    // تحديد اللوكيشن أو كتابة رسالة بديلة لو العميل رفض يدينا الصلاحية
+    let locationText = "العميل لم يقم بتفعيل خدمة الموقع (GPS)";
+    if (lat && lng) {
+      locationText = `https://maps.google.com/?q=${lat},${lng}`;
+    }
+
+    // تجهيز الرسالة
+    const rawMessage = `طلب صيانة فورية 🚨\nالاسم: ${clientName}\nالرقم: ${clientPhone}\nموقع العميل: ${locationText}`;
+    
+    // تشفير الرسالة عشان تشتغل على كل المتصفحات (أندرويد، آيفون، متصفحات لايت)
+    const encodedMessage = encodeURIComponent(rawMessage);
+    
+    // اللينك "الجوكر" اللي بيقرأ واتساب العادي والأعمال
+    const jokerUrl = `https://api.whatsapp.com/send?phone=201080380777&text=${encodedMessage}`;
+    
+    // التوجيه المباشر
+    window.location.href = jokerUrl;
+  };
+
   const handleEmergencyMaintenance = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          
-          // لينك جوجل ماب الصحيح والدقيق
-          const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-
-          const clientName = prompt("برجاء إدخال اسمك الكريم:");
-          if (!clientName) return; 
-
-          const clientPhone = prompt("برجاء إدخال رقم موبايلك للتواصل السريع:");
-          if (!clientPhone) return; 
-
-          const message = `طلب صيانة فورية 🚨%0Aالاسم: ${clientName}%0Aالرقم: ${clientPhone}%0Aموقع العميل: ${googleMapsUrl}`;
-          
-          // التحويل المباشر للواتساب لتجنب حظر النوافذ المنبثقة
-          window.location.href = `https://wa.me/201080380777?text=${message}`;
+          // لو وافق على اللوكيشن
+          sendToWhatsApp(position.coords.latitude, position.coords.longitude);
         },
         () => {
-          alert("برجاء الموافقة على صلاحية الوصول للموقع (GPS) لنتمكن من الوصول إليك بدقة.");
-        }
+          // لو رفض اللوكيشن، هنحوله برضه للواتساب بس من غير اللوكيشن عشان منخسرش الطلب
+          alert("لم نتمكن من تحديد موقعك بدقة، سيتم تحويلك للواتساب لإكمال الطلب.");
+          sendToWhatsApp(null, null);
+        },
+        // تسريع طلب اللوكيشن عشان المتصفح ميعملش بلوك
+        { timeout: 10000, enableHighAccuracy: true }
       );
     } else {
-      alert("عذراً، متصفحك لا يدعم خاصية تحديد الموقع.");
+      // لو متصفحه قديم جداً
+      sendToWhatsApp(null, null);
     }
   };
 
