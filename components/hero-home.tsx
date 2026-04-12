@@ -24,16 +24,34 @@ export default function HeroHome() {
           const message = `طلب صيانة فورية 🚨%0Aالاسم: ${clientName}%0Aالرقم: ${clientPhone}%0Aموقع العميل: ${googleMapsUrl}`;
           
           // تم تحديث الرقم هنا إلى 01080380777
-          window.open(`https://wa.me/201080380777?text=${message}`, "_blank");
-        },
-        () => {
-          alert("برجاء الموافقة على صلاحية الوصول للموقع (GPS) لنتمكن من الوصول إليك بدقة.");
-        }
-      );
-    } else {
-      alert("عذراً، متصفحك لا يدعم خاصية تحديد الموقع.");
-    }
-  };
+          const handleEmergencyMaintenance = () => {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                  const lat = position.coords.latitude;
+                  const lng = position.coords.longitude;
+                  // تصحيح لينك الخريطة
+                  const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+        
+                  const clientName = prompt("برجاء إدخال اسمك الكريم:");
+                  if (!clientName) return; 
+        
+                  const clientPhone = prompt("برجاء إدخال رقم موبايلك للتواصل السريع:");
+                  if (!clientPhone) return; 
+        
+                  const message = `طلب صيانة فورية 🚨%0Aالاسم: ${clientName}%0Aالرقم: ${clientPhone}%0Aموقع العميل: ${googleMapsUrl}`;
+                  
+                  // استخدام location.href يضمن فتح الواتساب حتى لو المتصفح بيحظر النوافذ المنبثقة
+                  window.location.href = `https://wa.me/201080380777?text=${message}`;
+                },
+                () => {
+                  alert("برجاء الموافقة على صلاحية الوصول للموقع (GPS) لنتمكن من الوصول إليك بدقة.");
+                }
+              );
+            } else {
+              alert("عذراً، متصفحك لا يدعم خاصية تحديد الموقع.");
+            }
+          };
 
   return (
     <section className="relative">
