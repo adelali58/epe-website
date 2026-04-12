@@ -40,22 +40,28 @@ export default function HeroHome() {
   };
 
   return (
-    // هنا ضفنا صورة الخلفية من النت مباشرة
+    // رجعنا للخلفية الفاتحة اللي بتشحن مع طبقة بيضاء شفافة شيك
     <section 
       className="relative bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop')" }}
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=2000&auto=format&fit=crop')" }}
     >
-      {/* دي الطبقة الشفافة (Overlay) عشان تهدي ألوان الصورة والكلام يظهر */}
-      <div className="absolute inset-0 bg-[#f8fafc]/85"></div>
+      {/* الطبقة الفاتحة اللي بتخلي الموقع مريح للعين (نفس الصورة الأولى) */}
+      <div className="absolute inset-0 bg-[#f8fafc]/90"></div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
           <div className="text-center pb-12 md:pb-16">
             
             <h1 className="text-5xl md:text-7xl font-extrabold leading-tighter tracking-tighter mb-4">
-              <span className="text-[#004b50]">Experience Power</span>
+              {/* اللمسة الفضية الميتاليك 3D على كلمة Experience Power */}
+              <span className="bg-gradient-to-b from-slate-300 via-slate-500 to-slate-800 bg-clip-text text-transparent drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]">
+                Experience Power
+              </span>
               <br />
-              <span className="text-[#004b50] font-light tracking-[0.3em] opacity-80">ENERGY</span>
+              {/* كلمة ENERGY بلون التيل الأساسي للشركة */}
+              <span className="text-[#004b50] font-light tracking-[0.3em] opacity-80">
+                ENERGY
+              </span>
             </h1>
             
             <div className="max-w-3xl mx-auto mt-8">
@@ -75,7 +81,7 @@ export default function HeroHome() {
                 
                 <a
                   href="#services"
-                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-white text-[#004b50] border-2 border-[#004b50] hover:bg-slate-100 transition-colors duration-300 flex items-center justify-center"
+                  className="w-full sm:w-auto px-8 py-3 rounded-lg font-bold bg-transparent text-[#004b50] border-2 border-[#004b50] hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center"
                 >
                   استكشف خدماتنا
                 </a>
