@@ -58,44 +58,6 @@ export default function Contact() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/10 via-slate-950 to-slate-950 pointer-events-none"></div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        
-        <div className="mb-24">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-4xl font-black text-white mb-4">سابقة أعمالنا</h2>
-            <p className="text-slate-400">نفخر بتنفيذ أحدث محطات الشحن وتركيبات المنازل والشركات بأعلى معايير الجودة.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all">
-              <div className="aspect-video bg-slate-800 flex items-center justify-center">
-                <span className="text-4xl">⚡</span>
-              </div>
-              <div className="p-4 bg-slate-900">
-                <h3 className="font-bold text-white">تركيب شاحن منزلي Tesla</h3>
-                <p className="text-sm text-slate-400 mt-1">القاهرة الجديدة</p>
-              </div>
-            </div>
-            <div className="group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all">
-              <div className="aspect-video bg-slate-800 flex items-center justify-center">
-                <span className="text-4xl">🏢</span>
-              </div>
-              <div className="p-4 bg-slate-900">
-                <h3 className="font-bold text-white">محطة شحن شركة كبرى</h3>
-                <p className="text-sm text-slate-400 mt-1">القرية الذكية</p>
-              </div>
-            </div>
-            <div className="group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/50 transition-all">
-              <div className="aspect-video bg-slate-800 flex items-center justify-center">
-                <span className="text-4xl">🔋</span>
-              </div>
-              <div className="p-4 bg-slate-900">
-                <h3 className="font-bold text-white">صيانة دورية لمحطة DC</h3>
-                <p className="text-sm text-slate-400 mt-1">الإسكندرية</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="max-w-3xl mx-auto bg-slate-900/50 backdrop-blur-md p-8 md:p-12 rounded-[2rem] border border-slate-800 shadow-2xl">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-black text-white mb-2">تواصل معنا الآن</h2>
