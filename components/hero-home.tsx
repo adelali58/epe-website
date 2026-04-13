@@ -3,10 +3,8 @@
 import React, { useState } from "react";
 
 export default function HeroHome() {
-  // حالة اللغة (الافتراضي إنجليزي)
   const [lang, setLang] = useState<'en' | 'ar'>('en');
 
-  // محتوى اللغتين
   const content = {
     en: {
       title1: "Experience:Life",
@@ -83,10 +81,10 @@ export default function HeroHome() {
   return (
     <section className="bg-slate-50 min-h-screen pb-20" dir={t.dir}>
       
-      {/* 1. الغلاف (Cover Photo) */}
+      {/* 1. الغلاف (Cover Photo) - تم تعديل المسار ليقرأ من فولدر images */}
       <div 
         className="relative w-full h-[350px] md:h-[450px] bg-cover bg-center"
-        style={{ backgroundImage: "url('/car-bg.jpg')" }}
+        style={{ backgroundImage: "url('/images/car-bg.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/20"></div>
         
@@ -101,20 +99,17 @@ export default function HeroHome() {
         </div>
       </div>
 
-      {/* 2. الصورة الشخصية (Profile Box) اللي راكبة فوق الغلاف */}
+      {/* 2. الصورة الشخصية (Profile Box) */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 -mt-24 md:-mt-32">
         
-        {/* البوكس الأبيض */}
         <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-16 text-center border-4 border-white/80">
           
           <div className="mb-8">
-            {/* الفخامة: خط ميتاليك 3D رائع لكلمة Experience:Life */}
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-2 italic">
               <span className="bg-gradient-to-r from-slate-600 via-slate-800 to-slate-600 bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
                 {t.title1}
               </span>
             </h1>
-            {/* ENERGY بلون التيل مع مسافات واسعة */}
             <h2 className="text-[#004b50] text-3xl md:text-4xl tracking-[0.4em] font-light mt-2 drop-shadow-sm">
               {t.title2}
             </h2>
@@ -126,7 +121,6 @@ export default function HeroHome() {
             {t.desc2}
           </p>
           
-          {/* الأزرار */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
             <button
               onClick={handleEmergencyMaintenance}
