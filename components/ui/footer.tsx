@@ -41,7 +41,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <span className="text-blue-500">✉️</span>
-                <span dir="ltr">experience62577@gmail.com</span>
+                <span dir="ltr"></span>
               </li>
               <li className="flex items-center gap-3">
                 <span className="text-blue-500">📍</span>

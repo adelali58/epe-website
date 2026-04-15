@@ -1,11 +1,9 @@
-import createImageUrlBuilder from '@sanity/image-url'
-import type { SanityImageSource } from "@sanity/image-url";
+import imageUrlBuilder from '@sanity/image-url'
+import { client } from './client' // مسار ملف الـ client بتاعك
 
-import { dataset, projectId } from '../env'
+const builder = imageUrlBuilder(client)
 
-// https://www.sanity.io/docs/image-url
-const builder = createImageUrlBuilder({ projectId, dataset })
-
-export const urlFor = (source: SanityImageSource) => {
+// الدالة دي هي اللي هنستخدمها عشان نظهر أي صورة
+export function urlFor(source: any) {
   return builder.image(source)
 }

@@ -2,31 +2,38 @@ import { type SchemaTypeDefinition } from 'sanity'
 
 const gallery: SchemaTypeDefinition = {
   name: 'gallery',
-  title: 'Work Gallery (معرض الشغل)',
+  title: 'معرض الشغل (Work Gallery)',
   type: 'document',
   fields: [
+    // الحقول القديمة عشان الداتا متروحش
     {
       name: 'title',
-      title: 'Project Name (اسم العملية/المشروع)',
+      title: 'العنوان (Title)',
       type: 'string',
     },
     {
-      name: 'mainImage',
-      title: 'Work Image (صورة الشغل)',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
       name: 'description',
-      title: 'Description (وصف سريع)',
+      title: 'الوصف (Description)',
       type: 'text',
     },
-  ],
+    {
+      name: 'mainImage',
+      title: 'الصورة الرئيسية (Main Image)',
+      type: 'image',
+    },
+    // الحقل الجديد بتاع الألبوم اللي ضفناه
+    {
+      name: 'workImages',
+      title: 'صور الشغل (ألبوم) Work Images',
+      type: 'array',
+      of: [{ type: 'image' }],
+      options: {
+        layout: 'grid',
+      }
+    }
+  ]
 }
 
-// السطر ده هو اللي هيحل المشكلة ويخلي config يشوف الداتا صح
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [gallery],
 }
