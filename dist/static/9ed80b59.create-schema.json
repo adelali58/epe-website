@@ -1,0 +1,37 @@
+[
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string",
+        "title": "العنوان (Title)"
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "title": "الوصف (Description)"
+      },
+      {
+        "name": "mainImage",
+        "type": "image",
+        "title": "الصورة الرئيسية (Main Image)"
+      },
+      {
+        "options": {
+          "layout": "grid"
+        },
+        "of": [
+          {
+            "type": "image"
+          }
+        ],
+        "name": "workImages",
+        "type": "array",
+        "title": "صور الشغل (ألبوم) Work Images"
+      }
+    ],
+    "name": "gallery",
+    "type": "document",
+    "title": "معرض الشغل (Work Gallery)"
+  }
+]

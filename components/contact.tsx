@@ -35,17 +35,37 @@ export default function Contact() {
     `;
 
     try {
+      // 1. النظام القديم: الإرسال إلى الإيميل عبر EmailJS
       await emailjs.send(
         'service_f4r4djs',
         'template_lbpbwjd',
         { message: fullMessage },
-        'DtlldLHpRbg87Fqy7' // المفتاح السليم
+        'DtlldLHpRbg87Fqy7'
       );
 
+      // 2. التعديل الجديد: إرسال نسخة من البيانات إلى Google Sheets
+      const googleScriptURL = 'https://script.google.com/macros/s/AKfycbxQjDPzxsrMBxJnselVV8U5KRt1NTAKZ0VivWpTasfbPvOLXsAuqVyryso3F1YvDPWQ/exec';
+      
+      await fetch(googleScriptURL, {
+        method: 'POST',
+        mode: 'no-cors', // مهم لتخطي حماية المتصفح وعدم تعطيل الكود القديم
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          // دمجنا الخدمة والتفاصيل عشان ينزلوا في العمود الثالث في الإكسيل
+          location: formData.serviceType + " | " + formData.details 
+        })
+      });
+
+      // بعد نجاح الإرسال للجهتين
       alert("تم إرسال طلبك بنجاح! سنتواصل معك في أقرب وقت ⚡");
       setFormData({ name: "", phone: "", serviceType: "توريد وتركيب شاحن جديد", details: "" });
+      
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error sending data:", error);
       alert("حدث خطأ أثناء الإرسال، برجاء المحاولة مرة أخرى.");
     } finally {
       setLoading(false);
