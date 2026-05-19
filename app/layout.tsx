@@ -2,6 +2,7 @@ import "./css/style.css";
 import { Inter } from "next/font/google";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
+import FloatingSocialButtons from "@/components/floating-social-buttons";
 import Script from "next/script";
 
 const inter = Inter({
@@ -68,6 +69,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <FloatingSocialButtons />
         </div>
       </body>
     </html>
