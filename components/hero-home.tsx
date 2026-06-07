@@ -18,6 +18,7 @@ export default function HeroHome() {
   const [clientName, setClientName] = useState("");
   const [clientPhone, setClientPhone] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [locationRetryLoading, setLocationRetryLoading] = useState(false);
   const [formError, setFormError] = useState("");
 
   const content = {
@@ -37,7 +38,12 @@ export default function HeroHome() {
       placeholderName: "e.g. Ahmed Mohamed",
       placeholderPhone: "01X XXXX XXXX",
       locationOk: "Your location was detected successfully",
-      locationFail: "Location unavailable — you can still send the request",
+      locationFail: "Location is required for urgent maintenance",
+      locationInstructions:
+        "Please allow location access in your browser. On mobile: Settings → Site permissions → Location → Allow.",
+      btnEnableLocation: "Enable location now",
+      locationRetrying: "Detecting location…",
+      errorLocationRequired: "You must enable location before sending the request",
       viewMap: "View on map",
       btnSubmit: "Send request via WhatsApp",
       btnCancel: "Cancel",
@@ -49,7 +55,6 @@ export default function HeroHome() {
       submitting: "Sending…",
       whatsappMsg:
         "Urgent Maintenance Request 🚨\nName: {name}\nPhone: {phone}\nLocation: {location}",
-      locationNotProvided: "Location not provided",
     },
     ar: {
       title1: "Experience:Life",
@@ -67,7 +72,12 @@ export default function HeroHome() {
       placeholderName: "مثال: أحمد محمد",
       placeholderPhone: "01X XXXX XXXX",
       locationOk: "تم تحديد موقعك بنجاح",
-      locationFail: "لم نتمكن من تحديد الموقع — يمكنك إرسال الطلب بدون موقع",
+      locationFail: "يجب تفعيل الموقع لإرسال طلب الصيانة الفورية",
+      locationInstructions:
+        "يرجى السماح بالوصول للموقع من المتصفح. على الموبايل: الإعدادات → أذونات الموقع → السماح لهذا الموقع.",
+      btnEnableLocation: "تفعيل الموقع الآن",
+      locationRetrying: "جاري تحديد الموقع…",
+      errorLocationRequired: "يجب تفعيل الموقع قبل إرسال الطلب",
       viewMap: "عرض على الخريطة",
       btnSubmit: "إرسال الطلب عبر واتساب",
       btnCancel: "إلغاء",
@@ -79,7 +89,6 @@ export default function HeroHome() {
       submitting: "جاري الإرسال…",
       whatsappMsg:
         "طلب صيانة فورية 🚨\nالاسم: {name}\nالرقم: {phone}\nموقع العميل: {location}",
-      locationNotProvided: "العميل لم يفعّل الموقع",
     },
   };
 
@@ -111,7 +120,7 @@ export default function HeroHome() {
     };
   }, [modalOpen, closeModal]);
 
-  const requestLocation = (): Promise<Coords> => {
+  const requestLocation = (highAccuracy = false): Promise<Coords> => {
     return new Promise((resolve) => {
       if (typeof navigator === "undefined" || !navigator.geolocation) {
         resolve(null);
@@ -125,12 +134,27 @@ export default function HeroHome() {
           }),
         () => resolve(null),
         {
-          timeout: 12000,
-          maximumAge: 120000,
-          enableHighAccuracy: false,
+          timeout: highAccuracy ? 20000 : 12000,
+          maximumAge: 0,
+          enableHighAccuracy: highAccuracy,
         }
       );
     });
+  };
+
+  const retryLocation = async () => {
+    setLocationRetryLoading(true);
+    setFormError("");
+    let result = await requestLocation(true);
+    if (!result) {
+      result = await requestLocation(false);
+    }
+    setLocationRetryLoading(false);
+    if (result) {
+      setCoords(result);
+    } else {
+      setFormError(t.errorLocationRequired);
+    }
   };
 
   const handleEmergencyMaintenance = async () => {
@@ -163,13 +187,14 @@ export default function HeroHome() {
       setFormError(t.errorPhone);
       return;
     }
+    if (!coords) {
+      setFormError(t.errorLocationRequired);
+      return;
+    }
 
     setSubmitting(true);
 
-    let locationText = t.locationNotProvided;
-    if (coords) {
-      locationText = `https://www.google.com/maps?q=${coords.lat},${coords.lng}`;
-    }
+    const locationText = `https://www.google.com/maps?q=${coords.lat},${coords.lng}`;
 
     try {
       fetch(GOOGLE_SCRIPT_URL, {
@@ -319,107 +344,146 @@ export default function HeroHome() {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              <div
-                className={`flex items-start gap-3 rounded-xl px-4 py-3 text-sm ${
-                  coords
-                    ? "bg-emerald-50 text-emerald-900 border border-emerald-200"
-                    : "bg-amber-50 text-amber-900 border border-amber-200"
-                }`}
-              >
-                <span className="text-lg shrink-0" aria-hidden>
-                  {coords ? "📍" : "⚠️"}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="font-semibold">
-                    {coords ? t.locationOk : t.locationFail}
-                  </p>
-                  {mapUrl && (
-                    <a
-                      href={mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block mt-1 text-[#004b50] font-bold underline underline-offset-2"
+            <div className="p-6 space-y-5">
+              {!coords ? (
+                <>
+                  <div className="rounded-xl border-2 border-red-200 bg-red-50 px-4 py-4 text-sm text-red-900">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl shrink-0" aria-hidden>
+                        📍
+                      </span>
+                      <div>
+                        <p className="font-black text-base">{t.locationFail}</p>
+                        <p className="mt-2 text-red-800/90 leading-relaxed">
+                          {t.locationInstructions}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {formError && (
+                    <p
+                      className="text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2"
+                      role="alert"
                     >
-                      {t.viewMap}
-                    </a>
+                      {formError}
+                    </p>
                   )}
-                </div>
-              </div>
 
-              <div>
-                <label
-                  htmlFor="maint-name"
-                  className="block text-sm font-bold text-slate-700 mb-2"
-                >
-                  {t.labelName}
-                  <span className="text-red-500 ms-1">*</span>
-                </label>
-                <input
-                  id="maint-name"
-                  type="text"
-                  name="name"
-                  autoComplete="name"
-                  enterKeyHint="next"
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
-                  placeholder={t.placeholderName}
-                  disabled={submitting}
-                  className="w-full rounded-xl border-2 border-slate-200 px-4 py-3.5 text-base text-slate-900 placeholder:text-slate-400 focus:border-[#004b50] focus:outline-none focus:ring-2 focus:ring-[#004b50]/20 disabled:opacity-60"
-                />
-              </div>
+                  <button
+                    type="button"
+                    onClick={retryLocation}
+                    disabled={locationRetryLoading}
+                    className="w-full py-4 rounded-xl font-black text-white bg-[#004b50] hover:bg-[#00363a] shadow-lg transition-colors disabled:opacity-60 disabled:cursor-wait text-base"
+                  >
+                    {locationRetryLoading ? t.locationRetrying : t.btnEnableLocation}
+                  </button>
 
-              <div>
-                <label
-                  htmlFor="maint-phone"
-                  className="block text-sm font-bold text-slate-700 mb-2"
-                >
-                  {t.labelPhone}
-                  <span className="text-red-500 ms-1">*</span>
-                </label>
-                <input
-                  id="maint-phone"
-                  type="tel"
-                  name="phone"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  enterKeyHint="done"
-                  value={clientPhone}
-                  onChange={(e) => setClientPhone(e.target.value)}
-                  placeholder={t.placeholderPhone}
-                  disabled={submitting}
-                  className="w-full rounded-xl border-2 border-slate-200 px-4 py-3.5 text-base text-slate-900 placeholder:text-slate-400 focus:border-[#004b50] focus:outline-none focus:ring-2 focus:ring-[#004b50]/20 disabled:opacity-60"
-                  dir="ltr"
-                />
-              </div>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    disabled={locationRetryLoading}
+                    className="w-full py-3 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50"
+                  >
+                    {t.btnCancel}
+                  </button>
+                </>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="flex items-start gap-3 rounded-xl px-4 py-3 text-sm bg-emerald-50 text-emerald-900 border border-emerald-200">
+                    <span className="text-lg shrink-0" aria-hidden>
+                      📍
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold">{t.locationOk}</p>
+                      {mapUrl && (
+                        <a
+                          href={mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block mt-1 text-[#004b50] font-bold underline underline-offset-2"
+                        >
+                          {t.viewMap}
+                        </a>
+                      )}
+                    </div>
+                  </div>
 
-              {formError && (
-                <p
-                  className="text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2"
-                  role="alert"
-                >
-                  {formError}
-                </p>
+                  <div>
+                    <label
+                      htmlFor="maint-name"
+                      className="block text-sm font-bold text-slate-700 mb-2"
+                    >
+                      {t.labelName}
+                      <span className="text-red-500 ms-1">*</span>
+                    </label>
+                    <input
+                      id="maint-name"
+                      type="text"
+                      name="name"
+                      autoComplete="name"
+                      enterKeyHint="next"
+                      value={clientName}
+                      onChange={(e) => setClientName(e.target.value)}
+                      placeholder={t.placeholderName}
+                      disabled={submitting}
+                      className="w-full rounded-xl border-2 border-slate-200 px-4 py-3.5 text-base text-slate-900 placeholder:text-slate-400 focus:border-[#004b50] focus:outline-none focus:ring-2 focus:ring-[#004b50]/20 disabled:opacity-60"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="maint-phone"
+                      className="block text-sm font-bold text-slate-700 mb-2"
+                    >
+                      {t.labelPhone}
+                      <span className="text-red-500 ms-1">*</span>
+                    </label>
+                    <input
+                      id="maint-phone"
+                      type="tel"
+                      name="phone"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      enterKeyHint="done"
+                      value={clientPhone}
+                      onChange={(e) => setClientPhone(e.target.value)}
+                      placeholder={t.placeholderPhone}
+                      disabled={submitting}
+                      className="w-full rounded-xl border-2 border-slate-200 px-4 py-3.5 text-base text-slate-900 placeholder:text-slate-400 focus:border-[#004b50] focus:outline-none focus:ring-2 focus:ring-[#004b50]/20 disabled:opacity-60"
+                      dir="ltr"
+                    />
+                  </div>
+
+                  {formError && (
+                    <p
+                      className="text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2"
+                      role="alert"
+                    >
+                      {formError}
+                    </p>
+                  )}
+
+                  <div className="flex flex-col gap-3 pt-1">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="w-full py-4 rounded-xl font-black text-white bg-[#004b50] hover:bg-[#00363a] shadow-lg transition-colors disabled:opacity-60 disabled:cursor-wait text-base"
+                    >
+                      {submitting ? t.submitting : t.btnSubmit}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      disabled={submitting}
+                      className="w-full py-3 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50"
+                    >
+                      {t.btnCancel}
+                    </button>
+                  </div>
+                </form>
               )}
-
-              <div className="flex flex-col gap-3 pt-1">
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full py-4 rounded-xl font-black text-white bg-[#004b50] hover:bg-[#00363a] shadow-lg transition-colors disabled:opacity-60 disabled:cursor-wait text-base"
-                >
-                  {submitting ? t.submitting : t.btnSubmit}
-                </button>
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  disabled={submitting}
-                  className="w-full py-3 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50"
-                >
-                  {t.btnCancel}
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
       )}

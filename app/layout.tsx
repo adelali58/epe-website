@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import FloatingSocialButtons from "@/components/floating-social-buttons";
+import InAppBrowserGuard from "@/components/in-app-browser-guard";
 import Script from "next/script";
 
 const inter = Inter({
@@ -32,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="ar" className="scroll-smooth" dir="rtl">
       <body className={`${inter.variable} bg-slate-950 font-inter text-slate-200 antialiased`}>
-        
+        <InAppBrowserGuard />
         {/* Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-T99FVNEZ28" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">

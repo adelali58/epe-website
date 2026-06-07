@@ -41,7 +41,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <span className="text-blue-500">✉️</span>
-                <span dir="ltr"></span>
+                <span dir="ltr">https://web.facebook.com/experiencego?locale=ar_AR</span>
               </li>
               <li className="flex items-center gap-3">
                 <span className="text-blue-500">📍</span>
